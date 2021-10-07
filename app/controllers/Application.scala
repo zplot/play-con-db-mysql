@@ -20,22 +20,22 @@ object Application extends Controller {
     try {
       val stmt = conn.createStatement
 
-      //stmt.executeUpdate("CREATE TABLE IF NOT EXISTS mates (numero INT)")
-      //stmt.executeUpdate("INSERT INTO mates VALUES (3)")
-
-      // val sqlStatement = "SELECT nombre, apellidos FROM alumnos"
       val sqlStatement =
         "SELECT alumnos.nombre, alumnos.apellidos, alumnos_cursos.fecha_inscripcion " +
         "FROM alumnos INNER JOIN alumnos_cursos " +
           "ON alumnos.id=alumnos_cursos.alumno_id " +
-          "WHERE alumnos_cursos.fecha_inscripcion <> 'null'"
+          "WHERE alumnos_cursos.fecha_inscripcion <> 'null'" +
+          "AND alumnos.nombre < 'Alejandra'"
 
       val rs: ResultSet = stmt.executeQuery(sqlStatement)
 
 
       while (rs.next) {
         //out += "Read from DB: " + rs.getInt("nombre") + "\n"
-        out += "Read from DB: " + rs.getString("alumnos.nombre") + " " + rs.getString("alumnos.apellidos")  + " " + rs.getDate("alumnos_cursos.fecha_inscripcion")+  "\n"
+        out += rs.getString("alumnos.nombre") + " " +
+          rs.getString("alumnos.apellidos")  + " " +
+          rs.getDate("alumnos_cursos.fecha_inscripcion") +
+          "\n"
       }
     } finally {
       conn.close()
