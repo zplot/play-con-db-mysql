@@ -6,7 +6,7 @@ import play.api.cache.Cache
 import play.api.Play.current
 import play.api.db._
 
-import java.sql.Statement
+import java.sql.{ResultSet, Statement}
 
 object Application extends Controller {
 
@@ -23,11 +23,15 @@ object Application extends Controller {
       //stmt.executeUpdate("CREATE TABLE IF NOT EXISTS mates (numero INT)")
       //stmt.executeUpdate("INSERT INTO mates VALUES (3)")
 
-      val rs = stmt.executeQuery("SELECT nombre FROM alumnos")
+      val sqlStatement = "SELECT nombre, apellidos FROM alumnos"
+      // val ordensql = "SELECT alumnos.nombre, alumnos.apellidos, alumnos_cursos.fecha_inscripcion FROM alumnos INNER JOIN alumnos_cursos ON alumnos.id=alumnos_cursos.alumno_id"
+
+      val rs: ResultSet = stmt.executeQuery(sqlStatement)
+
 
       while (rs.next) {
         //out += "Read from DB: " + rs.getInt("nombre") + "\n"
-        out += "Read from DB: " + rs.getString("nombre") + "\n"
+        out += "Read from DB: " + rs.getString("nombre") + " " + rs.getString("apellidos") +  "\n"
       }
     } finally {
       conn.close()
