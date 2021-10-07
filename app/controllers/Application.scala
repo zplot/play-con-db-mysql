@@ -20,13 +20,14 @@ object Application extends Controller {
     try {
       val stmt = conn.createStatement
 
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS mates (numero INT)")
-      stmt.executeUpdate("INSERT INTO mates VALUES (3)")
+      //stmt.executeUpdate("CREATE TABLE IF NOT EXISTS mates (numero INT)")
+      //stmt.executeUpdate("INSERT INTO mates VALUES (3)")
 
-      val rs = stmt.executeQuery("SELECT numero FROM mates")
+      val rs = stmt.executeQuery("SELECT nombre FROM alumnos")
 
       while (rs.next) {
-        out += "Read from DB: " + rs.getInt("numero") + "\n"
+        //out += "Read from DB: " + rs.getInt("nombre") + "\n"
+        out += "Read from DB: " + rs.getString("nombre") + "\n"
       }
     } finally {
       conn.close()
